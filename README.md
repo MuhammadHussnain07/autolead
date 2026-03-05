@@ -1,4 +1,3 @@
-<!-- HEADER -->
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:6C63FF,100:00C9FF&height=200&section=header&text=AutoLead&fontSize=50&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Flutter%20%2B%20n8n%20Salon%20Booking%20%26%20Lead%20Automation&descAlignY=58&descSize=16" width="100%"/>
 </p>
@@ -16,43 +15,42 @@
 
 ## 🚨 The Problem
 
-> A salon owner was managing bookings through **WhatsApp messages, phone calls, and paper registers.**
->
-> - ❌ Appointments were being double-booked
-> - ❌ Staff spent hours manually entering customer data
-> - ❌ No-shows had no follow-up system
-> - ❌ Owner had no real-time view of daily bookings
-> - ❌ Leads were lost because nobody responded fast enough
+A salon owner was managing bookings through **WhatsApp messages, phone calls, and paper registers.**
 
-**The business was losing money every single day — not because they had no customers, but because they had no system.**
+- ❌ Appointments were being double-booked
+- ❌ Staff spent hours manually entering customer data
+- ❌ No-shows had no follow-up system
+- ❌ Owner had no real-time view of daily bookings
+- ❌ Leads were lost because nobody responded fast enough
+
+**The business was losing money every day — not because of no customers, but because of no system.**
 
 ---
 
-## ✅ The Solution — AutoLead
+## ✅ The Solution
 
-A complete **Flutter app + n8n automation system** that handles the entire booking journey — from customer tap to owner action — with zero manual work.
+A complete **Flutter app + n8n automation system** that handles the entire booking journey from customer tap to owner action with zero manual work.
 
 ---
 
 ## ⚡ How The Full System Works
 
-👤 Customer opens app
-↓
-📋 Fills: Name, Phone, Email, Service, Message
-↓
-📤 Flutter sends data to n8n webhook
-↓
-┌─────────────────────────────────────────┐
-│           n8n AUTOMATION FIRES          │
-│                                         │
-│  ✉️  Confirmation email → customer      │
-│  📊  Data appended → Google Sheets      │
-│  🔥  Data saved → Firebase Firestore    │
-└─────────────────────────────────────────┘
-↓
-📱 Admin panel updates in real-time
-↓
-👨‍💼 Owner sees booking → contacts on WhatsApp in 1 tap
+**Step 1** 👤 Customer opens the app
+
+**Step 2** 📋 Fills in: Name, Phone, Email, Service, Message
+
+**Step 3** 📤 Flutter sends data to n8n webhook
+
+**Step 4** ⚙️ n8n automation fires instantly:
+
+- ✉️ Confirmation email sent to customer
+- 📊 Data saved to Google Sheets
+- 🔥 Data synced to Firebase Firestore
+
+**Step 5** 📱 Admin panel updates in real-time
+
+**Step 6** 👨‍💼 Owner sees booking and contacts customer on WhatsApp in 1 tap
+
 ---
 
 ## 📱 App Structure
@@ -63,7 +61,7 @@ A complete **Flutter app + n8n automation system** that handles the entire booki
 |---|---|
 | 🏠 Home | Welcome screen with services overview |
 | 📋 Booking Form | Customer fills name, phone, email, service, message |
-| ✅ Confirmation | Success screen shown after booking submitted |
+| ✅ Confirmation | Success screen after booking submitted |
 | 📜 My Bookings | Customer view of their appointments |
 
 ### 🖥️ Admin Panel — `/admin-app`
@@ -81,8 +79,8 @@ A complete **Flutter app + n8n automation system** that handles the entire booki
 | Node | Action |
 |---|---|
 | 🎣 Webhook | Receives booking data from Flutter |
-| ✉️ Gmail Node | Sends auto confirmation email to customer |
-| 📊 Google Sheets | Appends booking row to master sheet |
+| ✉️ Gmail Node | Sends auto confirmation email |
+| 📊 Google Sheets | Appends booking to master sheet |
 | 🔥 Firebase Node | Saves data to Firestore |
 | 📤 Respond Node | Returns success to Flutter app |
 
@@ -100,29 +98,39 @@ A complete **Flutter app + n8n automation system** that handles the entire booki
 | 📊 Data Backup | Google Sheets |
 | 📧 Email | Gmail via n8n |
 | 💬 Contact | WhatsApp API |
-| 🛠️ IDE | VS Code + Android Studio |
 
 ---
 
 ## 📸 Screenshots
 
-### User App
-| Home | Booking Form | Confirmation |
-|---|---|---|
-| ![home](screenshots/user-home.png) | ![form](screenshots/user-form.png) | ![confirm](screenshots/user-confirm.png) |
+### 🖥️ Admin Panel
 
-### Admin Panel
-| Dashboard | Leads | Detail |
-|---|---|---|
-| ![dashboard](screenshots/admin-dashboard.png) | ![leads](screenshots/admin-leads.png) | ![detail](screenshots/admin-detail.png) |
+<p align="center">
+  <img src="screenshots/admin-dashboard.jpeg" width="18%"/>
+  <img src="screenshots/admin-dashboard1.jpeg" width="18%"/>
+  <img src="screenshots/admin-dashboard2.jpeg" width="18%"/>
+  <img src="screenshots/admin-dashboard3.jpeg" width="18%"/>
+  <img src="screenshots/admin-dashboard4.jpeg" width="18%"/>
+</p>
 
-> 📂 Screenshots folder: [View here](screenshots/)
+<p align="center">
+  <img src="screenshots/admin-dashboard5.jpeg" width="18%"/>
+</p>
+
+### 👤 User App
+
+<p align="center">
+  <img src="screenshots/user-booking.jpeg" width="30%"/>
+  &nbsp;&nbsp;
+  <img src="screenshots/user-booking1.jpeg" width="30%"/>
+  &nbsp;&nbsp;
+  <img src="screenshots/user-booking2.jpeg" width="30%"/>
+</p>
 
 ---
 
-✅ Bookings happen 24/7 — no staff needed
-✅ Zero manual data entry — everything is automatic
-✅ Customer gets instant confirmation email
-✅ Owner sees all bookings in real-time dashboard
-✅ Lead response time drops from hours → seconds
-✅ No more double bookings or missed appointments
+## 🚀 Setup & Run
+
+**1. Clone the repo**
+```bash
+git clone https://github.com/MuhammadHussnain07/autolead.git
