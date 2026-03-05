@@ -1,0 +1,178 @@
+{
+  "name": "AutoLeadAI - Lead Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "autolead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook-001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "autolead-webhook"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "Thanks for contacting us! \ud83c\udf89",
+        "emailType": "html",
+        "message": "<h2>Hi {{ $json.body.name }}! \ud83d\udc4b</h2><p>Thank you for reaching out to us!</p><p>We received your inquiry about: <b>{{ $json.body.service }}</b></p><p>We will contact you on WhatsApp: <b>{{ $json.body.phone }}</b> shortly.</p><br><p>Best Regards,<br><b>AutoLeadAI Team \u2705</b></p>",
+        "options": {}
+      },
+      "id": "node-gmail-002",
+      "name": "Send Email to Customer",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REPLACE_WITH_YOUR_GMAIL_CREDENTIAL_ID",
+          "name": "Gmail - ADD YOUR ACCOUNT HERE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Webhook').item.json.body.name }}",
+            "Phone": "={{ $('Webhook').item.json.body.phone }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Service": "={{ $('Webhook').item.json.body.service }}",
+            "Message": "={{ $('Webhook').item.json.body.message }}",
+            "Date": "={{ $now }}",
+            "Status": "New"
+          }
+        },
+        "options": {}
+      },
+      "id": "node-sheets-003",
+      "name": "Save to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        720,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_WITH_YOUR_GOOGLE_CREDENTIAL_ID",
+          "name": "Google Sheets - ADD YOUR ACCOUNT HERE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Lead received successfully!\",\n  \"name\": \"{{ $('Webhook').item.json.body.name }}\"\n}",
+        "options": {}
+      },
+      "id": "node-respond-004",
+      "name": "Respond to Flutter",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firestore.googleapis.com/v1/projects/YOUR_FIREBASE_PROJECT_ID/databases/(default)/documents/leads",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "jsonBody": "={\n  \"fields\": {\n    \"name\": {\"stringValue\": \"{{ $('Webhook').item.json.body.name }}\"},\n    \"phone\": {\"stringValue\": \"{{ $('Webhook').item.json.body.phone }}\"},\n    \"email\": {\"stringValue\": \"{{ $('Webhook').item.json.body.email }}\"},\n    \"service\": {\"stringValue\": \"{{ $('Webhook').item.json.body.service }}\"},\n    \"message\": {\"stringValue\": \"{{ $('Webhook').item.json.body.message }}\"},\n    \"status\": {\"stringValue\": \"New\"},\n    \"createdAt\": {\"stringValue\": \"{{ $now }}\"}\n  }\n}",
+        "options": {}
+      },
+      "id": "node-firebase-005",
+      "name": "Save to Firebase Firestore",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Email to Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email to Customer": {
+      "main": [
+        [
+          {
+            "node": "Save to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Flutter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save to Firebase Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateId": "autolead-ai",
+    "instanceId": "autolead-ai-workflow"
+  }
+}
