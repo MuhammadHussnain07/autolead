@@ -102,9 +102,18 @@ A complete **Flutter app + n8n automation system** that handles the entire booki
 | 💬 Contact | WhatsApp API |
 
 ---
----
 
 ## 📊 Real Results This System Delivers
+
+### ❌ Before AutoLead
+
+- Bookings only during working hours — missed every night and weekend lead
+- Staff spending 2+ hours daily on manual WhatsApp data entry
+- Customers waiting hours for any confirmation response
+- Owner had zero visibility of how many leads came in daily
+- Double bookings happening because no central system existed
+- No follow-up system for no-shows or missed calls
+
 ### ✅ After AutoLead
 
 - Bookings happen 24/7 — no staff involvement needed at all
@@ -117,6 +126,7 @@ A complete **Flutter app + n8n automation system** that handles the entire booki
 - WhatsApp contact in 1 tap directly from the admin panel
 
 ---
+
 ## 📸 Screenshots
 
 ### 🖥️ Admin Panel
